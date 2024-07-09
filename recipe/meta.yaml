@@ -13,7 +13,7 @@ source:
 build:
   noarch: python
   number: 1
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: "{{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation"
 
 requirements:
   host:
@@ -36,5 +36,10 @@ about:
   dev_url: https://github.com/barneygale/pathlib-abc
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49491
+    reason: Client request
+    recipe-maintainers:
+      - ianaobi
   recipe-maintainers:
     - kfot
