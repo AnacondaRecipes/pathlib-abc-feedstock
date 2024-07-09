@@ -24,6 +24,8 @@ requirements:
     - python >=3.7
 
 test:
+  commands:
+    - pip check
   imports:
     - pathlib_abc
 
@@ -34,7 +36,7 @@ about:
   license_file: LICENSE
   summary: Base classes for pathlib.Path-ish objects
   dev_url: https://github.com/barneygale/pathlib-abc
-
+  doc_url: https://github.com/barneygale/pathlib-abc/tree/main/docs
 extra:
   anaconda-services:
     ref: https://anaconda.zendesk.com/agent/tickets/49491
