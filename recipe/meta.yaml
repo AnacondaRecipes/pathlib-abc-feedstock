@@ -1,31 +1,38 @@
 {% set name = "pathlib-abc" %}
-{% set version = "0.3.1" %}
-{% set pypi_name = name.replace("-", "_") %}
+{% set version = "0.1.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ pypi_name[0] }}/{{ pypi_name }}/{{ pypi_name }}-{{ version }}.tar.gz
-  sha256: 811395d2793a1c675ff79c3246d3d6b41a0f96a3a1479c2e96c56b0a51402227
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: 084e7bdd919b0f7774914a9e64cd86a1b39860f81f781dd724258631f2915abe
 
 build:
-  noarch: python
-  number: 1
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: true  # [py<38]
 
 requirements:
   host:
     - pip
-    - python >=3.7
+    - python
     - hatchling
   run:
-    - python >=3.7
+    - python
 
 test:
+  source_files:
+    - tests
   imports:
     - pathlib_abc
+  commands:
+    - pip check
+    - pytest -v tests
+  requires:
+    - pip
+    - pytest
 
 about:
   home: https://github.com/barneygale/pathlib-abc
@@ -34,7 +41,18 @@ about:
   license_file: LICENSE
   summary: Base classes for pathlib.Path-ish objects
   dev_url: https://github.com/barneygale/pathlib-abc
-
+  doc_url: https://github.com/barneygale/pathlib-abc/tree/main/docs
+  description: |
+    This package is a preview of pathlib functionality planned for a future release of Python;
+    specifically, it provides two ABCs that can be used to implement path classes for non-local filesystems,
+    such as archive files and storage servers
+      PurePathBase
+        Abstract base class for paths that do not perform I/O.
+      PathBase
+        Abstract base class for paths that perform I/O.
+    These base classes are under active development. Once the base classes reach maturity,
+    they will be made part of the Python standard library, and this package will continue
+    to provide a backport for older Python releases.
 extra:
   recipe-maintainers:
     - kfot
